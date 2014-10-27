@@ -36,8 +36,9 @@ int main()
 			//cout << cmd[x] << " ";
 			++x;
 		}
-		//cout << x << " " << x+1 << endl;
-		cmd[x+1] = NULL;//Makes last argument the null character
+		
+		cout << x << " " << x+1 << endl;
+		cmd[x] = NULL;//Makes last argument the null character
 		int pid = fork();
 		if(pid == 0)
 		{
