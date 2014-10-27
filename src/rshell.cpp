@@ -14,18 +14,19 @@ int main()
 {
 	while(true)
 	{
-		string commands;
+		string commands;//Receive command line
 		cout << "$";
 		getline(cin,commands);
 		int y = commands.size() + 1;
-		char* stuff = new char[y];
+		char* stuff = new char[y]//Stores command line as c strings
 		strcpy(stuff,commands.c_str());
-		char * cmd[y];
+		char * cmd[y];//Stores the parsed command line
 		int x = 0;
-		char* tok = strtok(stuff, " ;\n\t\r");
-		while(tok != NULL)
+		char* tok = strtok(stuff, " ;\n\t\r");//Parses the c_strings
+		while(tok != NULL)//Adding tokens into storage
 		{
-			if(strcmp(tok, "exit") == 0)
+			if(strcmp(tok, "exit") == 0)//if an argument is exit
+						    //it will exit
 			{
 				exit(0);
 			}
@@ -35,7 +36,7 @@ int main()
 			++x;
 		}
 		//cout << x << " " << x+1 << endl;
-		cmd[x+1] = NULL;
+		cmd[x+1] = NULL;//Makes last argument the null character
 		int pid = fork();
 		if(pid == 0)
 		{
@@ -44,7 +45,7 @@ int main()
 			perror("execvp");
 			exit(1);
 		}
-		else if (pid == -1)
+		else if (pid == -1)//If fork fails
 		{
 			perror("fork");
 		}
