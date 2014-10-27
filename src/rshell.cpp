@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <cstring>
+#include <vector>
 
 using namespace std;
 
@@ -17,10 +18,10 @@ int main()
 		string commands;//Receive command line
 		cout << "$";
 		getline(cin,commands);
-		int y = commands.size() + 1;
-		char* stuff = new char[y]//Stores command line as c strings
+		const int y = commands.size() + 1;
+		char* stuff = new char[y];//Stores command line as c strings
 		strcpy(stuff,commands.c_str());
-		char * cmd[y];//Stores the parsed command line
+		char** cmd= new char*[y];//Stores the parsed command line
 		int x = 0;
 		char* tok = strtok(stuff, " ;\n\t\r");//Parses the c_strings
 		while(tok != NULL)//Adding tokens into storage
@@ -32,7 +33,7 @@ int main()
 			}
 			cmd[x] = tok;
 			tok = strtok(NULL," ;\n\t\r");
-		//	cout << cmd[x] << " ";
+			//cout << cmd[x] << " ";
 			++x;
 		}
 		//cout << x << " " << x+1 << endl;
