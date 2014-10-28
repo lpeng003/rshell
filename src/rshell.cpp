@@ -37,7 +37,9 @@ int main()
 			++x;
 		}
 		
-		cout << x << " " << x+1 << endl;
+		//cout << x << " " << x+1 << endl;Checks how many arguments and
+						//which would be the null 
+						//argument
 		cmd[x] = NULL;//Makes last argument the null character
 		int pid = fork();
 		if(pid == 0)

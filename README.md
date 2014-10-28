@@ -46,5 +46,5 @@ Bugs
 ===
 1. Unable to handle connectors such as: %%, ||, ;
 
-2. Inputting "cat" with no arguments causes shell to continously copy the input
+2. Does not handle comments
 
