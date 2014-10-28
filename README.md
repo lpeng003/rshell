@@ -29,6 +29,7 @@ rshell.cpp
 ```
 ```
 /tests:
+exec.script
 
 ```
 After cloning the directory to your local machine:
@@ -44,7 +45,8 @@ After cloning the directory to your local machine:
 
 Bugs
 ===
-1. Unable to handle connectors such as: %%, ||, ;
+1. Unable to handle connectors such as: && || ;
 
 2. Does not handle comments
 
+3. Command "cd" fails, returns "execvp: no such file or directory"
