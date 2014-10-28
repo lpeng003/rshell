@@ -15,6 +15,23 @@ int main()
 {
 	while(true)
 	{
+		if(NULL == getlogin())//Display login user
+		{
+			perror("getlogin");
+		}
+		else
+		{
+			cout << getlogin();
+		}
+		char host_name[64] ={0};
+		if(-1 == gethostname(host_name,64))//Display host name
+		{
+			perror("hostname");
+		}
+		else
+		{
+			cout << "@" << host_name;
+		}
 		string commands;//Receive command line
 		cout << "$";
 		getline(cin,commands);
