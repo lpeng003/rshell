@@ -1,0 +1,104 @@
+Script started on Mon 27 Oct 2014 09:37:06 PM PDT
+~
+lpeng003@hammer $ cd ../
+/home/csmajs
+lpeng003@hammer $ cd
+~
+lpeng003@hammer $ ls
+assn1.asm   [0m[01;34mDownloads[0m/                [01;34mPictures[0m/     [01;32msi week 2lab[0m*  [01;34mVideos[0m/
+[01;34mDesktop[0m/    lpeng003@well.cs.ucr.edu  [01;34mprogramming[0m/  [01;34msketchbook[0m/
+[01;34mDocuments[0m/  [01;34mMusic[0m/                    [01;34mPublic[0m/       [01;34mTemplates[0m/
+[m~
+lpeng003@hammer $ cd Desktop
+~/Desktop
+lpeng003@hammer $ ls
+[0m[01;32mAssessment Header[0m*   [01;34mfirstrepo[0m/      [01;32mminecraft.sh~[0m*    [01;32mResume~[0m*
+[01;32mAssessment Header~[0m*  [01;34mLabs[0m/           [01;32mnew file[0m*         [01;34mrshell[0m/
+[01;34mcs100_stuff[0m/         [01;32mMinecraft.jar[0m*  [01;32mnew file (copy)[0m*  [01;34mTesting[0m/
+[01;34mcs61[0m/                [01;32mminecraft.sh[0m*   [01;32mResume[0m*           [01;34mucr-cs100[0m/
+[m~/Desktop
+lpeng003@hammer $ cd rshell
+~/Desktop/rshell
+lpeng003@hammer $ cd src
+~/Desktop/rshell/src
+lpeng003@hammer $ ls
+rshell.cpp
+~/Desktop/rshell/src
+lpeng003@hammer $ cd [K[K[Kg++ rhsell[K[K[K[K[Kshell.cpp
+~/Desktop/rshell/src
+lpeng003@hammer $ ./a.out
+$ls
+a.out  rshell.cpp
+$cd
+execvp: No such file or directory
+$echo
+
+$mk  pwn d
+/home/csmajs/lpeng003/Desktop/rshell/src
+$date
+Mon Oct 27 21:38:02 PDT 2014
+$cal
+    October 2014    
+Su Mo Tu We Th Fr Sa
+          1  2  3  4
+ 5  6  7  8  9 10 11
+12 13 14 15 16 17 18
+19 20 21 22 23 24 25
+26 [7m27[m 28 29 30 31
+
+$pu  uptime
+ 21:38:07 up 22 days,  1:13, 16 users,  load average: 2.35, 2.23, 2.23
+$man ls
+7[?47h[?1h=LS(1)                            User Commands                           LS(1)
+
+[1mNAME[m
+       ls - list directory contents
+
+[1mSYNOPSIS[m
+       [1mls[m [[4mOPTION[m]... [[4mFILE[m]...
+
+[1mDESCRIPTION[m
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of [1m-cftuvSUX[m nor [1m--sort[m.
+
+       Mandatory arguments to long options are  mandatory  for  short  options
+       too.
+
+       [1m-a[m, [1m--all[m
+              do not ignore entries starting with .
+
+       [1m-A[m, [1m--almost-all[m
+              do not list implied . and ..
+
+       [1m--author[m
+              with [1m-l[m, print the author of each file
+:[K[K[?1l>[2J[?47l8$ls -a
+.  ..  a.out  rshell.cpp
+$ls -  R
+.:
+a.out  rshell.cpp
+$echo hello
+hello
+$ls -a; ls -R
+ls: cannot access ls: No such file or directory
+$echo hi #dontp print
+hi #dontprint
+$echo hello || echo bye
+hello || echo bye
+$pwd && mkdir blub
+pwd: ignoring non-option arguments
+/home/csmajs/lpeng003/Desktop/rshell/src
+$mkdir test
+$exit
+~/Desktop/rshell/src
+lpeng003@hammer $ script
+Script started, file is typescript
+~
+lpeng003@hammer $ exit
+exit
+Script done, file is typescript
+~/Desktop/rshell/src
+lpeng003@hammer $ exit
+exit
+
+Script done on Mon 27 Oct 2014 09:40:57 PM PDT
