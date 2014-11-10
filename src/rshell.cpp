@@ -35,12 +35,19 @@ int main()
 		string commands;//Receive command line
 		cout << "$";
 		getline(cin,commands);
+
+		//Removing comment
+		int size_str = commands.find("#");
+		commands = commands.substr(0,size_str);
+
 		const int y = commands.size() + 1;
 		char* stuff = new char[y];//Stores command line as c strings
 		strcpy(stuff,commands.c_str());
+
 		char** cmd= new char*[y];//Stores the parsed command line
 		int x = 0;
 		char* tok = strtok(stuff, " ;\n\t\r");//Parses the c_strings
+
 		while(tok != NULL)//Adding tokens into storage
 		{
 			if(strcmp(tok, "exit") == 0)//if an argument is exit
