@@ -26,6 +26,7 @@ ls.cpp
 ```
 /tests:
 exec.script
+ls.script
 
 ```
 After cloning the directory to your local machine:
