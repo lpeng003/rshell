@@ -44,3 +44,5 @@ Bugs
 1. ls cannot handle one or multiple file arguments 
 
 2. Command "cd" fails, returns "execvp: no such file or directory"
+
+3. ls may have incorrect spacing when running certain commands

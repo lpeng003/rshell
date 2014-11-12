@@ -16,7 +16,6 @@ using namespace std;
 
 void def_ls()
 {
-	struct stat buf;
 	char* dirName =(char *) ".";
 	DIR *dirp = opendir(dirName);
 	dirent *direntp;
@@ -35,7 +34,6 @@ void def_ls()
 
 void ls_a()
 {
-	struct stat buf;
 	char* dirName = (char *)".";
 	DIR *dirp = opendir(dirName);
 	if(dirp == NULL)
@@ -178,7 +176,6 @@ void flagR(bool flagA, bool flagL, const string dir)
 		if(flagL)
 		{
 			
-			const char* temp = direntp->d_name;
 			char temp1[1024];
 			strcpy(temp1,dir1);
 			strcat(temp1, "/");
@@ -213,7 +210,7 @@ void flagR(bool flagA, bool flagL, const string dir)
 	cout << endl;
 	//cout << posdir.size() << endl;
 	//cout << "out of loop" << endl;
-	for(int i = 0; i<posdir.size(); ++i)
+	for(unsigned int i = 0; i<posdir.size(); ++i)
 	{
 		if(dir +"/"+posdir.at(i) == dir +"/.");
 		{
@@ -314,7 +311,7 @@ void ls_R(bool flagA, bool flagL)
 
 	}
 	cout << endl << endl;
-	for(int i = 0; i<initialcall.size();++i)
+	for(unsigned int i = 0; i<initialcall.size();++i)
 	{
 		flagR(flagA,flagL, initialcall.at(i));
 	}
