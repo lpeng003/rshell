@@ -1,13 +1,7 @@
 RSHELL
 ===
-Liscensing information: READ LICENSE
-===
 Project source can be downloaded from https://github.com/lpeng003/rshell.git
 ===
-
-Author & Contributor List
-===
-Leon Peng
 
 File List
 ===
@@ -26,6 +20,8 @@ README.md
 /src:
 
 rshell.cpp
+cp.cpp
+ls.cpp
 ```
 ```
 /tests:
@@ -45,8 +41,6 @@ After cloning the directory to your local machine:
 
 Bugs
 ===
-1. Unable to handle connectors such as: && || ;
+1. ls cannot handle one or multiple file arguments 
 
-2. Does not handle comments
-
-3. Command "cd" fails, returns "execvp: no such file or directory"
+2. Command "cd" fails, returns "execvp: no such file or directory"
