@@ -1,0 +1,184 @@
+Script started on Tue 11 Nov 2014 09:40:22 PM PST
+~
+lpeng003@hammer $ cd Desktop/rshell
+~/Desktop/rshell
+lpeng003@hammer $ ls
+LICENSE  Makefile  README.md  [0m[01;34msrc[0m/  [01;34mtests[0m/
+[m~/Desktop/rshell
+lpeng003@hammer $ make
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
+~/Desktop/rshell
+lpeng003@hammer $ cd bin
+~/Desktop/rshell/bin
+lpeng003@hammer $ ls
+[0m[01;32mcp[0m*  [01;32mls[0m*  [01;32mrshell[0m*
+[m~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -a[K[K[K
+rshell  cp  ls  
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -a
+. .. rshell cp ls 
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -l
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -R
+.:
+rshell cp ls 
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -al
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -aR
+.:
+. .. rshell cp ls 
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -lR
+.:
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -alR
+.:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -a -l
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -a -l -R
+.:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -l -a -R
+.:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -Al[K[Kal -R
+.:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -Ral
+.:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:39 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+
+
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ mkdir blub
+~/Desktop/rshell/bin
+lpeng003@hammer $ touch/bl[K[K[K blub/stuff
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -a
+. .. rshell cp ls blub 
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -l
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:42 blub
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -R
+.:
+rshell cp ls blub 
+
+blub:
+stuff 
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -Rl
+.:
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:42 blub
+
+
+blub:
+-rw------- 1 lpeng003 csmajs 0 Nov 11 21:42 blub/stuff
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls -alR
+.:
+drwx------ 3 lpeng003 csmajs 4096 Nov 11 21:42 .
+drwx------ 6 lpeng003 csmajs 4096 Nov 11 21:39 ..
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:42 blub
+
+
+blub:
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:42 blub/.
+drwx------ 3 lpeng003 csmajs 4096 Nov 11 21:42 blub/..
+-rw------- 1 lpeng003 csmajs 0 Nov 11 21:42 blub/stuff
+
+~/Desktop/rshell/bin
+lpeng003@hammer $ ls blub
+stuff
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls blub
+rshell  cp  ls  blub  
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./ls blub -l
+-rwx------ 1 lpeng003 csmajs 15422 Nov 11 21:39 rshell
+-rwx------ 1 lpeng003 csmajs 15249 Nov 11 21:39 cp
+-rwx------ 1 lpeng003 csmajs 30335 Nov 11 21:39 ls
+drwx------ 2 lpeng003 csmajs 4096 Nov 11 21:42 blub
+~/Desktop/rshell/bin
+lpeng003@hammer $ exit
+exit
+
+Script done on Tue 11 Nov 2014 09:45:01 PM PST
