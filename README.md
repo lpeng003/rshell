@@ -43,6 +43,7 @@ After cloning the directory to your local machine:
 Bugs
 ===
 1. ls cannot handle one or multiple file arguments 
+	ls will simply ignore that file paramenter and run in the current directory
 
 2. Command "cd" fails, returns "execvp: no such file or directory"
 
