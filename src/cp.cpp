@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
-		while(num = read(fdi, buf, 1))
+		while((num = read(fdi, buf, 1)))
 		{
 			if(num == -1)
 			{
@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
-		while(num2 = read(fdi2, buf2, BUFSIZ))
+		while((num2 = read(fdi2, buf2, BUFSIZ)))
 		{
 			if(num2 == -1)
 			{
@@ -197,7 +197,7 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
-		while(num2 = read(fdi2, buf2, BUFSIZ))
+		while((num2 = read(fdi2, buf2, BUFSIZ)))
 		{
 			if(num2 == -1)
 			{
