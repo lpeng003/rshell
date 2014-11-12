@@ -1,0 +1,37 @@
+Script started on Tue 11 Nov 2014 11:35:00 PM PST
+~
+lpeng003@hammer $ ls
+assn1.asm   [0m[01;34mDownloads[0m/                [01;34mPictures[0m/     [01;32msi week 2lab[0m*  [01;34mVideos[0m/
+[01;34mDesktop[0m/    lpeng003@well.cs.ucr.edu  [01;34mprogramming[0m/  [01;34msketchbook[0m/
+[01;34mDocuments[0m/  [01;34mMusic[0m/                    [01;34mPublic[0m/       [01;34mTemplates[0m/
+[m~
+lpeng003@hammer $ cd Desktop/s[Krshell
+~/Desktop/rshell
+lpeng003@hammer $ ls
+[0m[01;34mbin[0m/  LICENSE  Makefile  README.md  [01;34msrc[0m/  [01;34mtests[0m/
+[m~/Desktop/rshell
+lpeng003@hammer $ cd bin
+~/Desktop/rshell/bin
+lpeng003@hammer $ ls
+[0m[01;32mcp[0m*  file  file1  [01;32mls[0m*  [01;32mrshell[0m*
+[m~/Desktop/rshell/bin
+lpeng003@hammer $ ./[K[Kcat file1
+blub
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./cp file file[K[K[K[K[K1 file2
+~/Desktop/rshell/bin
+lpeng003@hammer $ cat file2
+cat: file2: Permission denied
+~/Desktop/rshell/bin
+lpeng003@hammer $ chmod a+r file2
+~/Desktop/rshell/bin
+lpeng003@hammer $ ct[Kat file2
+blub
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./cp file1 file2
+access: Success
+~/Desktop/rshell/bin
+lpeng003@hammer $ exit
+exit
+
+Script done on Tue 11 Nov 2014 11:35:59 PM PST
