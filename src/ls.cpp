@@ -9,6 +9,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <vector>
+#include <cstring>
 #include <iostream>
 
 using namespace std;
@@ -61,9 +62,9 @@ void ls_a()
 	
 }
 
-void flagl(dirent* direntp, struct stat buf)
+void flagl(char *direntp, struct stat buf)
 {
-	if(-1 == lstat(direntp->d_name, &buf))
+	if(-1 == lstat(direntp, &buf))
 	{
 		perror("lstat");
 		exit(1);
@@ -137,31 +138,95 @@ void flagl(dirent* direntp, struct stat buf)
 	strftime(brk_tm, sizeof(brk_tm), "%R",&tim);
 	cout << brk_tm << " ";
 
-	cout << direntp->d_name << endl;
+	cout << direntp << endl;
 	
 
 }
 
 
-void flagR(bool flagl, const char* dir)
-{
-	DIR *dirp = opendir(dir);
+void flagR(bool flagA, bool flagL, const string dir)
+{	
+	if(dir == "." || dir == "..")
+	{
+		return;
+	}
+	const char * dir1 = dir.c_str();
+	DIR *dirp = opendir(dir1);
 	if(dirp == NULL)
 	{perror("opendir");}
 
 	dirent* direntp;
 	vector <char*> posdir;
+
+	cout << dir << ":" << endl;
 	
 	while((direntp = readdir(dirp)))
 	{
+		struct stat buf_dif;
+		if(!flagA)
+		{
+			if(direntp->d_name[0] == '.')
+			{
+				continue;
+			}
+		}
 		if(errno != 0)
 		{
 			perror("readdir");
 			exit(1);
 		}
+		if(flagL)
+		{
+			
+			const char* temp = direntp->d_name;
+			char temp1[1024];
+			strcpy(temp1,dir1);
+			strcat(temp1, "/");
+			strcat(temp1,direntp->d_name);
+			flagl(temp1, buf_dif);
+		}
+		else
+		cout << direntp->d_name << " ";
 		
-
+		char checkifdir [1024];
+		strcpy(checkifdir, dir1);
+		strcat(checkifdir, "/");
+		strcat(checkifdir,direntp->d_name);
+		
+		struct stat buf;
+		if(-1 == stat(checkifdir, &buf))
+		{
+			perror("stat");
+		}
+		if(S_ISDIR(buf.st_mode))
+		{
+			//cout << checkifdir << endl;
+			posdir.push_back(direntp->d_name);
+		}
+		//for(int i = 0; i<posdir.size(); ++i)
+		//{
+	//		cout<< "what is in posdir: " << posdir.at(i) << endl;
+	//	}
+		//cout << "next it" << endl;
 	}
+	if(!flagL)
+	cout << endl;
+	//cout << posdir.size() << endl;
+	//cout << "out of loop" << endl;
+	for(int i = 0; i<posdir.size(); ++i)
+	{
+		if(dir +"/"+posdir.at(i) == dir +"/.");
+		{
+			continue;
+		}
+		flagR(flagA, flagL,dir +"/"+posdir.at(i));
+	}
+	
+	if(-1 == closedir(dirp))
+	{
+		perror("closedir");
+	}
+	
 
 }
 
@@ -193,7 +258,7 @@ void ls_l(bool flagA)
 		}
 		
 		
-		flagl(direntp, buf);
+		flagl(direntp->d_name, buf);
 	}
 	if(-1 == closedir(dirp))
 	{
@@ -203,7 +268,7 @@ void ls_l(bool flagA)
 
 }
 
-void ls_R(bool flagA, bool flagl)
+void ls_R(bool flagA, bool flagL)
 {
 	struct stat buf;
 	char* dirName = (char *)".";
@@ -214,7 +279,8 @@ void ls_R(bool flagA, bool flagl)
 		exit(1);
 	}
 	dirent *direntp;
-	cout << left;
+	vector<char *> initialcall;
+	cout << dirName << ":" << endl;
 	while ((direntp = readdir(dirp)))
 	{
 		if(!flagA)
@@ -236,10 +302,24 @@ void ls_R(bool flagA, bool flagl)
 		}
 		if(S_ISDIR(buf.st_mode))
 		{
-			flagR(flagl, direntp->d_name);		
+			initialcall.push_back(direntp->d_name);
+			//flagR(flagA, flagL, direntp->d_name);		
 		}
+		if(flagL)
+		{
+			flagl(direntp->d_name, buf);
+		}
+		else
+		cout << direntp->d_name << " ";
 
 	}
+	cout << endl << endl;
+	for(int i = 0; i<initialcall.size();++i)
+	{
+		flagR(flagA,flagL, initialcall.at(i));
+	}
+
+	cout << endl;
 	if(-1 == closedir(dirp))
 	{
 		perror("closeddir");
@@ -252,12 +332,14 @@ void ls_R(bool flagA, bool flagl)
 
 int main(int argc, char** argv)
 {
+	//cout <<"Argc: " << argc << endl;
 	if(argc == 1)
 	{
 		def_ls();
+		return 0;
 	}
 	bool flagA = false;
-	bool flagl = false;
+	bool flagL = false;
 	bool flagR = false;
 	//flags
 	if(argc > 1)//Not default ls
@@ -273,23 +355,31 @@ int main(int argc, char** argv)
 					if(flag_check[j] == 'a')
 					{flagA = true;}
 					if(flag_check[j] == 'l')
-					{flagl = true;}
+					{flagL = true;}
 					if(flag_check[j] == 'R')
 					{flagR = true;}
 					++j;
 				}
 			}
-			else
-				break;//no more flags can be read in
+		//	else
+		//		break;//no more flags can be read in
 		}	
 	}
-	//if(flagR)
-	//{ls_R(flagA, flagl);}
-	else if(flagl)
-	{ls_l(flagA);}
+	if(flagR)
+	{
+		ls_R(flagA, flagL);
+	}
+	else if(flagL)
+	{
+		ls_l(flagA);
+	}
 	else if(flagA)
-	{ls_a();}
+	{
+		ls_a();
+	}
 	else
-	{def_ls();}
+	{
+		def_ls();
+	}
 	return 0;
 }
