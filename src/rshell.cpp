@@ -58,6 +58,24 @@ bool exec_vp(string commands)
 	return false;
 }
 
+void redirect(char ** cmd)
+{
+	for(int i = 0;cmd[i] != NULL;++i)
+	{
+		bool in = false;
+		bool out = false;
+		bool outout = false;
+
+
+
+		
+
+
+
+	}
+}
+
+
 int main()
 {
 	while(true)
@@ -86,9 +104,36 @@ int main()
 		//Removing comment
 		int size_str = commands.find("#");
 		commands = commands.substr(0,size_str);
-
+		
 		
 
+		//Seperating by pipes
+		
+
+		const int max_size = commands.size();
+		char* command_c = new char[max_size];
+		strcpy(command_c, commands.c_str());
+
+
+		char ** cmds = new char *[max_size];
+		int x = 0;
+		char* tok = strtok(command_c, "|\n\t\r");
+		while(tok!=NULL)
+		{
+			cmds[x] = tok;
+			tok = strtok(NULL, "|\n\t\r");
+			++x;
+		}
+		cmds[x] = NULL;
+		/*for(int y = 0;y<x;++y)
+		{
+			cout << cmds[y] << endl;
+		}*/
+		
+		
+
+
+/*
 		//Seperating by connectors
 		int connect = 0;
 		bool no_connect = true;
@@ -142,6 +187,7 @@ int main()
 			else
 			next_it = true;
 		}
+	*/
 	}
 
 
