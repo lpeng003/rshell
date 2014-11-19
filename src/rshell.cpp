@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <cstring>
 #include <vector>
 
@@ -58,21 +60,143 @@ bool exec_vp(string commands)
 	return false;
 }
 
-void redirect(char ** cmd)
+void redirect(char ** cmd, int numpipes)
 {
+	int l_than = -1;
+	int g_than = -1;
+	int gg_than = -1;
 	for(int i = 0;cmd[i] != NULL;++i)
 	{
-		bool in = false;
-		bool out = false;
-		bool outout = false;
 
+		char * input_file;
+		char * output_file;
 
-
+		char *args[1024];
+		int argc = 0;
+		char *tok = strtok(cmd[i], " \t\n\r");
+		while(tok != NULL)
+		{
+			if(strcmp(tok, "<") == 0)
+			{
+				++l_than;
+				if(l_than >0)
+				{
+					cout << "Error: Invalid amount of input operators" << endl;
+					exit(1);
+				}
+				char * input_file = strtok(NULL, " \t");
+				++argc;
+				break;
+			}
+			else if(strcmp(tok,">>") == 0)
+			{
+				++g_than;
+				if((g_than + gg_than) > 0)
+				{
+					cout << " Error: Invalid amount of output operators" << endl;
+					exit(1);
+				}
+				char * output_file = strtok(NULL, " \t");
+				++argc;
+				break;
+			}
+			else if(strcmp(tok, ">") == 0)
+			{
+				++gg_than;
+				if((g_than + gg_than) > 0)
+				{
+					cout << " Error: Invalid amount of output operators" << endl;
+					exit(1);
+				}
+				char * output_file = strtok(NULL, " \t");
+				++argc;
+				break;
+			}
+			else
+			{
+				args[argc] = tok;
+			}
+			argc++;
+			tok = strtok(NULL, " \t");
+		}
+		args[argc] = NULL;
+			
+		int fd[2];
+		if(!(cmd[i+1] == NULL))
+		{	
+			pipe(fd);
+		}
 		
+		int pid = fork();
+		if(pid == -1)
+		{
+			perror("fork");
+		}
+		else if(pid == 0) //child
+		{
+			if(i != 0)
+			{
+				if(-1 == dup2(fd[0],0))
+					perror("dup2");
+			}
+			if(!(cmd[i+1]==NULL))
+			{
+				if(-1 == dup2(fd[1],1))
+					perror("dup2");
+			}
+			if(i = 0 && l_than == 0)
+			{
+				int in = open(input_file, O_RDONLY);
+				if(in == -1)
+					perror("open");
+				if(-1 == close(0))
+					perror("close");
+				if(-1 == dup(in))
+					perror("dup");
+			}
+
+			if(cmd[i+1] == NULL && g_than == 0)
+			{
+				int out = open(output_file,O_WRONLY | O_CREAT);
+				if(-1 == out)
+					perror("open");
+				if(-1 == close(1))
+					perror("close");
+				if(-1 == dup(out))
+					perror("dup");
+
+			}
+			if(cmd[i+1] == NULL && gg_than == 0)
+			{
+				int out = open(output_file,O_WRONLY | O_CREAT|O_APPEND);
+				if(-1 == out)
+					perror("open");
+				if(-1 == close(1))
+					perror("close");
+				if(-1 == dup(out))
+					perror("dup");
+
+			}
+
+
+			if(-1 == execvp(args[0], args))
+				perror("execvp");
+			exit(1);	
+		}
+		else//parent
+		{}
 
 
 
 	}
+	for(int i =0; cmd[i] != NULL;++i)
+	{
+		if(-1 == wait(0))
+		{
+			perror("wait");
+		}
+	}
+
 }
 
 
@@ -114,6 +238,10 @@ int main()
 		char* command_c = new char[max_size];
 		strcpy(command_c, commands.c_str());
 
+		if(strcmp(command_c, "exit") == 0)
+		{
+			exit(1);
+		}	
 
 		char ** cmds = new char *[max_size];
 		int x = 0;
@@ -125,6 +253,12 @@ int main()
 			++x;
 		}
 		cmds[x] = NULL;
+
+		int amnt_pipes = x - 1;
+
+
+		redirect(cmds,amnt_pipes);
+
 		/*for(int y = 0;y<x;++y)
 		{
 			cout << cmds[y] << endl;
