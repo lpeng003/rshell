@@ -1,0 +1,55 @@
+Script started on Thu 20 Nov 2014 11:46:13 PM PST
+~
+lpeng003@hammer $ ls
+assn1.asm   lpeng003@well.cs.ucr.edu  [0m[01;34mPublic[0m/        [01;34mVideos[0m/
+[01;34mDesktop[0m/    [01;34mMusic[0m/                    [01;32msi week 2lab[0m*
+[01;34mDocuments[0m/  [01;34mPictures[0m/                 [01;34msketchbook[0m/
+[01;34mDownloads[0m/  [01;34mprogramming[0m/              [01;34mTemplates[0m/
+[m~
+lpeng003@hammer $ ./ cd [K[K[K[K[K[Kcd Desktop/rshell
+~/Desktop/rshell
+lpeng003@hammer $ make
+mkdir bin
+g++ -Wall -Werror -ansi -pedantic src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
+~/Desktop/rshell
+lpeng003@hammer $ cd bin
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./a.[K[Krshell
+lpeng003@hammer.cs.ucr.edu$echo roflcopter>  > info.txt
+lpeng003@hammer.cs.ucr.edu$chomd   mod a+rw info.txt
+lpeng003@hammer.cs.ucr.edu$cat info.txt
+roflcopter
+lpeng003@hammer.cs.ucr.edu$echo rofleco   copter >> info.txt
+lpeng003@hammer.cs.ucr.edu$cat info.txt
+roflcopter
+roflcopter
+lpeng003@hammer.cs.ucr.edu$cat < info.txt
+roflcopter
+roflcopter
+lpeng003@hammer.cs.ucr.edu$cat info.x txt | tr a-z A-Z
+ROFLCOPTER
+ROFLCOPTER
+#hanging process
+^C
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./rshell
+lpeng003@hammer.cs.ucr.edu$cat < existingInputFile | tr A-Z a-z | tee newOutputFile1 | tr a-z A-Z > newOutputFile2 &^[[A                                                                                          
+^C
+~/Desktop/rshell/bin
+lpeng003@hammer $ ./rshell
+lpeng003@hammer.cs.ucr.edu$cat < info.txt | tr A-  a-z A-Z | tee newfile.txt
+^C
+~/Desktop/rshell/bin
+lpeng003@hammer $ ls
+[0m[01;32mcp[0m*  info.txt  [01;32mls[0m*  newfile.txt  [01;32mrshell[0m*
+[m~/Desktop/rshell/bin
+lpeng003@hammer $ chmod a+rw newfile.txt
+~/Desktop/rshell/bin
+lpeng003@hammer $ cat newfile.txt
+~/Desktop/rshell/bin
+lpeng003@hammer $ exit
+exit
+
+Script done on Thu 20 Nov 2014 11:50:35 PM PST
