@@ -27,6 +27,7 @@ ls.cpp
 /tests:
 exec.script
 ls.script
+pipe.script
 
 ```
 After cloning the directory to your local machine:
@@ -38,7 +39,7 @@ After cloning the directory to your local machine:
 
 3. cd into /bin
 
-4. call rshell
+4. run ./rshell
 
 Bugs
 ===
@@ -48,3 +49,9 @@ Bugs
 2. Command "cd" fails, returns "execvp: no such file or directory"
 
 3. ls may have incorrect spacing when running certain commands
+
+4. rshell can not handle 3 or more commands with pipes
+	process will hang, possibly due to failure to properly pipe to next commands
+5.rshell at 2 arguments will possibly work, but will still have a hanging process.
+
+6.Files created by rshell will have permission denied, use chmod a+r to read the file.
