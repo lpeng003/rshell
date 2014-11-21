@@ -53,6 +53,6 @@ Bugs
 4. rshell can not handle 3 or more commands with pipes
 	process will hang, possibly due to failure to properly pipe to next commands
 
-5.rshell at 2 arguments will possibly work, but will still have a hanging process.
+5. rshell at 2 arguments will possibly work, but will still have a hanging process.
 
-6.Files created by rshell will have permission denied, use chmod a+r to read the file.
+6. Files created by rshell will have permission denied, use chmod a+r to read the file.
