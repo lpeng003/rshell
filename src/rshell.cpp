@@ -60,13 +60,19 @@ bool exec_vp(string commands)
 	return false;
 }
 
-void redirect(char ** cmd, int numpipes)
+void redirect(char ** cmd, int size)
 {
 	int l_than = -1;
 	int g_than = -1;
 	int gg_than = -1;
-	for(int i = 0;cmd[i] != NULL;++i)
+
+	int fdbefore[2];
+	int fdafter[2];
+
+	for(int i = 0;i<size;++i)
 	{
+		//cout << "Size is: " << size <<endl;
+		//cout << "i is: " << i << endl;
 
 		char * input_file;
 		char * output_file;
@@ -76,6 +82,7 @@ void redirect(char ** cmd, int numpipes)
 		char *tok = strtok(cmd[i], " \t\n\r");
 		while(tok != NULL)
 		{
+			//cout << tok << endl;
 			if(strcmp(tok, "<") == 0)
 			{
 				++l_than;
@@ -84,23 +91,11 @@ void redirect(char ** cmd, int numpipes)
 					cout << "Error: Invalid amount of input operators" << endl;
 					exit(1);
 				}
-				char * input_file = strtok(NULL, " \t");
+				input_file = strtok(NULL, " \t");
 				++argc;
 				break;
 			}
 			else if(strcmp(tok,">>") == 0)
-			{
-				++g_than;
-				if((g_than + gg_than) > 0)
-				{
-					cout << " Error: Invalid amount of output operators" << endl;
-					exit(1);
-				}
-				char * output_file = strtok(NULL, " \t");
-				++argc;
-				break;
-			}
-			else if(strcmp(tok, ">") == 0)
 			{
 				++gg_than;
 				if((g_than + gg_than) > 0)
@@ -108,7 +103,19 @@ void redirect(char ** cmd, int numpipes)
 					cout << " Error: Invalid amount of output operators" << endl;
 					exit(1);
 				}
-				char * output_file = strtok(NULL, " \t");
+				output_file = strtok(NULL, " \t");
+				++argc;
+				break;
+			}
+			else if(strcmp(tok, ">") == 0)
+			{
+				++g_than;
+				if((g_than + gg_than) > 0)
+				{
+					cout << " Error: Invalid amount of output operators" << endl;
+					exit(1);
+				}
+				output_file = strtok(NULL, " \t");
 				++argc;
 				break;
 			}
@@ -120,13 +127,25 @@ void redirect(char ** cmd, int numpipes)
 			tok = strtok(NULL, " \t");
 		}
 		args[argc] = NULL;
-			
-		int fd[2];
-		if(!(cmd[i+1] == NULL))
-		{	
-			pipe(fd);
-		}
 		
+		//fdbefore = fdafter;
+	
+		fdbefore[0] = fdafter[0];
+		fdbefore[1] = fdafter[1];
+
+		//cout << "fdbefore[0]" << fdbefore[0] << endl;
+		//cout << "fdbefore[1]" << fdbefore[1] << endl;
+		
+	
+		if(i != (size - 1))
+		{
+			//cout << "piped" << endl;
+			if(-1 == pipe(fdafter))
+				perror("pipe");
+		}
+		//cout << "fdafter[0]" << fdafter[0] << endl;
+		//cout << "fdafter[1]" << fdafter[1] << endl;
+		//cout << "Called fork here " << endl;
 		int pid = fork();
 		if(pid == -1)
 		{
@@ -134,17 +153,21 @@ void redirect(char ** cmd, int numpipes)
 		}
 		else if(pid == 0) //child
 		{
+		//	cout << i << "!= 0" << endl;
 			if(i != 0)
 			{
-				if(-1 == dup2(fd[0],0))
+				//cout<<"fdbefore[0] = stdin here" << endl;
+				if(-1 == dup2(fdbefore[0],0))
 					perror("dup2");
 			}
-			if(!(cmd[i+1]==NULL))
+		//	cout << i << " != " << size-1 << endl;
+			if(i != (size - 1))
 			{
-				if(-1 == dup2(fd[1],1))
+				//cout << "fdafter[1] = stdout" << endl;
+				if(-1 == dup2(fdafter[1],1))
 					perror("dup2");
 			}
-			if(i = 0 && l_than == 0)
+			if(i == 0 && l_than == 0)
 			{
 				int in = open(input_file, O_RDONLY);
 				if(in == -1)
@@ -155,9 +178,9 @@ void redirect(char ** cmd, int numpipes)
 					perror("dup");
 			}
 
-			if(cmd[i+1] == NULL && g_than == 0)
+			if(i == (size -1) && g_than == 0)
 			{
-				int out = open(output_file,O_WRONLY | O_CREAT);
+				int out = open(output_file, O_WRONLY|O_CREAT);
 				if(-1 == out)
 					perror("open");
 				if(-1 == close(1))
@@ -166,9 +189,9 @@ void redirect(char ** cmd, int numpipes)
 					perror("dup");
 
 			}
-			if(cmd[i+1] == NULL && gg_than == 0)
+			if(i == (size-1) && gg_than == 0)
 			{
-				int out = open(output_file,O_WRONLY | O_CREAT|O_APPEND);
+				int out = open(output_file, O_WRONLY|O_CREAT|O_APPEND);
 				if(-1 == out)
 					perror("open");
 				if(-1 == close(1))
@@ -184,19 +207,29 @@ void redirect(char ** cmd, int numpipes)
 			exit(1);	
 		}
 		else//parent
-		{}
+		{
+		}
 
 
 
 	}
-	for(int i =0; cmd[i] != NULL;++i)
+	/*int k = 0;
+	
+	do
+	{
+	++k;
+	if(-1 == wait(0))
+	{
+		perror("wait");
+	}
+	}
+	while(k < size-1);
+	*/
+	for(int j = 0; j<size;++j)
 	{
 		if(-1 == wait(0))
-		{
 			perror("wait");
-		}
 	}
-
 }
 
 
@@ -253,18 +286,17 @@ int main()
 			++x;
 		}
 		cmds[x] = NULL;
+		//cout << x << endl;
+		
 
-		int amnt_pipes = x - 1;
 
-
-		redirect(cmds,amnt_pipes);
 
 		/*for(int y = 0;y<x;++y)
 		{
 			cout << cmds[y] << endl;
-		}*/
-		
-		
+		}
+		*/
+		redirect(cmds, x);
 
 
 /*
