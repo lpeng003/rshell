@@ -60,6 +60,7 @@ bool exec_vp(string commands)
 		}
 		//cout << "This is the parent" << endl;
 	}
+	delete[] stuff;
 	return false;
 }
 
@@ -245,7 +246,14 @@ int main()
 	signal(SIGINT,sighandler);
 	while(true)
 	{
-		if(NULL == getlogin())//Display login user
+		char cur[1024];
+		if(NULL == getcwd(cur,1024))
+		{
+			perror("getcwd");
+		}
+		else
+			cout << cur;
+		/*if(NULL == getlogin())//Display login user
 		{
 			perror("getlogin");
 		}
@@ -261,7 +269,8 @@ int main()
 		else
 		{
 			cout << "@" << host_name;
-		}
+		}*/
+		
 		string commands;//Receive command line
 		cout << "$";
 		getline(cin,commands);
