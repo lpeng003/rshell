@@ -10,8 +10,11 @@
 #include <fcntl.h>
 #include <cstring>
 #include <vector>
+#include <signal.h>
 
 using namespace std;
+
+
 
 bool exec_vp(string commands)
 {
@@ -180,7 +183,7 @@ void redirect(char ** cmd, int size)
 
 			if(i == (size -1) && g_than == 0)
 			{
-				int out = open(output_file, O_WRONLY|O_CREAT);
+				int out = open(output_file, O_WRONLY|O_CREAT, 0666);
 				if(-1 == out)
 					perror("open");
 				if(-1 == close(1))
@@ -208,9 +211,8 @@ void redirect(char ** cmd, int size)
 		}
 		else//parent
 		{
+			wait(0);
 		}
-
-
 
 	}
 	/*int k = 0;
@@ -225,16 +227,22 @@ void redirect(char ** cmd, int size)
 	}
 	while(k < size-1);
 	*/
-	for(int j = 0; j<size;++j)
+	/*for(int j = 0; j<size;++j)
 	{
 		if(-1 == wait(0))
 			perror("wait");
-	}
+	}*/
 }
 
+void sighandler(int signum)
+{
+	return;
+}
 
 int main()
 {
+
+	signal(SIGINT,sighandler);
 	while(true)
 	{
 		if(NULL == getlogin())//Display login user
