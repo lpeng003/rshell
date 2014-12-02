@@ -18,10 +18,18 @@ void def_ls()
 {
 	char* dirName =(char *) ".";
 	DIR *dirp = opendir(dirName);
+	if(dirp == NULL)
+	{
+		perror("opendir");
+	}
 	dirent *direntp;
 	cout << right;
 	while ((direntp = readdir(dirp)))
 	{
+		if(errno != 0)
+		{
+			perror("readdir");
+		}
 		if(direntp->d_name[0] == '.')
 		{
 			continue;
@@ -29,7 +37,10 @@ void def_ls()
 		cout << direntp->d_name << "  "; // use stat here to find attributes of file
 	}
 	cout << endl;
-	closedir(dirp);
+	if(-1 == closedir(dirp))
+	{
+		perror("closeddir");
+	}
 }
 
 void ls_a()
