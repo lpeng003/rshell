@@ -14,9 +14,21 @@
 
 using namespace std;
 
+void cd(const char *path)
+{
+	if(path == NULL)
+	{
+		cout << "Error:No path specified" << endl;
+		return;
+	}
+	if(-1 == chdir(path))
+	{
+		perror("chdir");
+	}	
 
+}
 
-bool exec_vp(string commands)
+bool exec_v(string commands)
 {
 	const int y = commands.size() + 1;
 	char* stuff = new char[y];//Stores command line as c strings
@@ -33,13 +45,22 @@ bool exec_vp(string commands)
 		{
 			exit(0);
 		}
+		if(strcmp(tok,"cd") ==0)
+		{
+			tok = strtok(NULL," \n\t\r");
+			cd(tok);
+			delete[] stuff;
+			return false;
+		}
 		cmd[x] = tok;
 		tok = strtok(NULL," \n\t\r");
 		//cout << cmd[x] << " ";
 		++x;
 	}
-	
 	cmd[x] = NULL;//Makes last argument the null character
+
+	char* env = getenv("PATH");
+
 	int pid = fork();
 	if(pid == 0)
 	{
@@ -235,6 +256,10 @@ void redirect(char ** cmd, int size)
 	}*/
 }
 
+void cd(string commands)
+{
+	
+}
 void sighandler(int signum)
 {
 	return;
@@ -246,13 +271,14 @@ int main()
 	signal(SIGINT,sighandler);
 	while(true)
 	{
-		char cur[1024];
+		char *cur = new char[1024];
 		if(NULL == getcwd(cur,1024))
 		{
 			perror("getcwd");
 		}
 		else
 			cout << cur;
+		delete[] cur;
 		/*if(NULL == getlogin())//Display login user
 		{
 			perror("getlogin");
@@ -279,44 +305,7 @@ int main()
 		int size_str = commands.find("#");
 		commands = commands.substr(0,size_str);
 		
-		
 
-		//Seperating by pipes
-		
-
-		const int max_size = commands.size();
-		char* command_c = new char[max_size];
-		strcpy(command_c, commands.c_str());
-
-		if(strcmp(command_c, "exit") == 0)
-		{
-			exit(1);
-		}	
-
-		char ** cmds = new char *[max_size];
-		int x = 0;
-		char* tok = strtok(command_c, "|\n\t\r");
-		while(tok!=NULL)
-		{
-			cmds[x] = tok;
-			tok = strtok(NULL, "|\n\t\r");
-			++x;
-		}
-		cmds[x] = NULL;
-		//cout << x << endl;
-		
-
-
-
-		/*for(int y = 0;y<x;++y)
-		{
-			cout << cmds[y] << endl;
-		}
-		*/
-		redirect(cmds, x);
-
-
-/*
 		//Seperating by connectors
 		int connect = 0;
 		bool no_connect = true;
@@ -331,6 +320,32 @@ int main()
 					connect = commands.find("||");
 					flag = "||";
 				}
+				else if(commands.find("|") != string::npos)
+				{
+					const int max_size = commands.size();
+					char* command_c = new char[max_size];
+					strcpy(command_c, commands.c_str());
+
+					if(strcmp(command_c, "exit") == 0)
+					{
+						exit(1);
+					}	
+
+					char ** cmds = new char *[max_size];
+					int x = 0;
+					char* tok = strtok(command_c, "|\n\t\r");
+					while(tok!=NULL)
+					{
+						cmds[x] = tok;
+						tok = strtok(NULL, "|\n\t\r");
+						++x;
+					}
+					cmds[x] = NULL;
+
+					redirect(cmds, x);
+					break;
+				}		
+					
 				else if(commands.find("&&")!=string::npos)
 				{
 					connect = commands.find("&&");
@@ -346,31 +361,31 @@ int main()
 				if(flag == "||")
 				{
 					string curr = commands.substr(0,connect);
-					if(exec_vp(curr)==true)
+					if(exec_v(curr)==true)
 					next_it = false;
 					commands = commands.substr(connect+2);
 				}
 				else if(flag == "&&")
 				{
 					string curr = commands.substr(0,connect);
-					if(exec_vp(curr)==false)
+					if(exec_v(curr)==false)
 					next_it = false;
 					commands = commands.substr(connect+2);
 				}
 				else if(flag == ";")
 				{
 					string next = commands.substr(0,connect);
-					if(exec_vp(next));
+					if(exec_v(next));
 					commands = commands.substr(connect+1);
 				}
 				else
-					exec_vp(commands);
+					exec_v(commands);
 				flag = "";
 			}
 			else
 			next_it = true;
 		}
-	*/
+	
 	}
 
 
