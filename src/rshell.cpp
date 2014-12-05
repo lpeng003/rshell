@@ -60,13 +60,53 @@ bool exec_v(string commands)
 	cmd[x] = NULL;//Makes last argument the null character
 
 	char* env = getenv("PATH");
+	string path = env;
+	const int z = path.size() + 1;
+	char* newenv = new char[z];
+	strcpy(newenv,path.c_str());
+	vector <char *> paths;
+	tok = strtok(newenv,":\n\t\r");
+
+	char dir[1024] = "/.";
+	paths.push_back(dir);
+	while(tok != NULL)
+	{
+		paths.push_back(tok);
+		tok = strtok(NULL,":\n\t\r");
+
+
+	}
 
 	int pid = fork();
 	if(pid == 0)
 	{
 		//cout << "This is the child" << endl;
-		if(-1 == execvp(cmd[0], cmd))
-		perror("execvp");
+		
+		for(int i = 0; i<paths.size(); ++i)
+		{
+			string first = paths.at(i);
+			string end = cmd[0];
+			string backslash = "/";
+			int big =strlen(paths.at(i))-1;
+			if(paths.at(i)[big] != '/')
+			{
+				first.append(backslash);
+				first.append(end);
+				const char *new_path = first.c_str();
+				if(-1 != execv(new_path,cmd))
+					exit(1);
+			}
+			else
+			{
+				first.append(end);
+				const char *new_path1 = first.c_str();
+				if(-1 != execv(new_path1, cmd))
+					exit(1);
+			}
+		}
+		perror("execv");
+		//if(-1 == execvp(cmd[0], cmd))
+		//perror("execvp");
 		exit(1);
 	}
 	else if (pid == -1)//If fork fails
@@ -81,13 +121,14 @@ bool exec_v(string commands)
 		}
 		//cout << "This is the parent" << endl;
 	}
+	delete[] newenv;
 	delete[] stuff;
 	return false;
 }
 
 void redirect(char ** cmd, int size)
 {
-	int l_than = -1;
+	/*int l_than = -1;
 	int g_than = -1;
 	int gg_than = -1;
 
@@ -237,6 +278,7 @@ void redirect(char ** cmd, int size)
 		}
 
 	}
+	*/
 	/*int k = 0;
 	
 	do
