@@ -82,7 +82,7 @@ bool exec_v(string commands)
 	{
 		//cout << "This is the child" << endl;
 		
-		for(int i = 0; i<paths.size(); ++i)
+		for(unsigned i = 0; i<paths.size(); ++i)
 		{
 			string first = paths.at(i);
 			string end = cmd[0];
